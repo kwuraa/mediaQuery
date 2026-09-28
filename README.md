@@ -381,40 +381,6 @@ Módulo autocontido (IIFE com `"use strict"`), sem dependências e sem efeitos g
 - [ ] Navegar por `Tab`: foco visível em todos os elementos interativos.
 - [ ] Ativar “reduzir movimento” no sistema: animações param.
 
-### 11.2 Automatizado (renderizador headless)
-
-Com Chrome/Edge instalados:
-
-```bash
-# captura de tela
-msedge --headless --screenshot=shot.png --window-size=390,844 http://localhost:8000/
-
-# extração do DOM depois do carregamento (útil para auditorias com JS)
-msedge --headless --virtual-time-budget=5000 --dump-dom http://localhost:8000/
-```
-
-**Snippet para o console do DevTools** — imprime o estado real da página:
-
-```js
-(() => {
-  const cs = (s) => getComputedStyle(document.querySelector(s));
-  const doc = document.documentElement;
-  console.table({
-    largura: innerWidth,
-    classe: document.body.className || "(sem classe)",
-    cards: cs(".card-grid").gridTemplateColumns,
-    glossario: cs(".glossary-grid").gridTemplateColumns,
-    passos: cs(".steps").gridTemplateColumns,
-    h1: cs(".hero h1").fontSize,
-    overflowX: doc.scrollWidth > doc.clientWidth,
-    botao: document.getElementById("btnLabel").textContent,
-  });
-})();
-```
-
-Valores esperados em **390px**: `cards = 358px`, `overflowX = false` (ligado) e
-`cards = 63.5px …` com `overflowX = true` (desligado).
-
 ---
 
 ## 12. Guia de personalização
@@ -446,37 +412,7 @@ Localize **todos** os blocos daquele valor e edita-os em conjunto
 }
 ```
 
-> Atualize também o texto da página (menções a “768px”) para não contradizer o código.
-
-### 12.3 Adicionar um card
-
-Copie um bloco dentro de `.card-grid`:
-
-```html
-<article class="card glass">
-  <span class="card-icon" aria-hidden="true">⭐</span>
-  <h3>Novo card</h3>
-  <p>Descrição curta em linguagem simples.</p>
-  <span class="card-tag">Categoria</span>
-</article>
-```
-
-Se forem mais de 4, ajuste a base: `grid-template-columns: repeat(5, minmax(0,1fr))`
-— e, se quiser, crie um breakpoint para 5 → 3 → 1.
-
-### 12.4 Adicionar um termo ao glossário
-
-```html
-<li class="term glass">
-  <h3>Terminho <span class="term-aka">(apelido)</span></h3>
-  <p class="term-def">Explicação simples, sem jargão.</p>
-  <p class="term-tip">
-    <strong>No dia a dia</strong> Comparação fácil de lembrar.
-  </p>
-</li>
-```
-
-### 12.5 Adicionar um novo breakpoint
+### 12.3 Adicionar um novo breakpoint
 
 1. Crie o bloco `@media (max-width: XXXpx) { … }` **dentro do bloco 4**.
 2. Préfixe **todas** as regras com `body.responsive-active`.
@@ -484,7 +420,7 @@ Se forem mais de 4, ajuste a base: `grid-template-columns: repeat(5, minmax(0,1f
    `padding`, `gap` e `flex-direction`.
 4. Rode o checklist da seção 11 nos dois estados (ligado/desligado).
 
-### 12.6 Inverter para _mobile first_ (versão “de produção”)
+### 12.4 Inverter para _mobile first_ (versão “de produção”)
 
 Para um site real, o recomendado é o contrário: base mínima sem media query e
 crescimento com `min-width`. Basta trocar os seletores condicionais:
@@ -576,6 +512,3 @@ Para isolar o conceito: com uma linha de CSS a mais ou a menos, a turma enxerga
 exatamente o que faz a diferença.
 
 ---
-
-_Documentação gerada para a demonstração `MediaQueries.lab` — atualize este arquivo
-sempre que estrutura, IDs ou breakpoints mudarem._
