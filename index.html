@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Aula de Desenvolvimento Web" />
+    <meta
+      name="description"
+      content="Demonstração prática de Media Queries: ative ou desative o CSS responsivo em tempo real e veja o layout desktop quebrar na tela do celular."
+    />
+    <title>Media Queries na Prática · Demonstração de Responsividade</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <noscript>
+      <style>
+        #toggleBtn {
+          display: none;
+        }
+      </style>
+    </noscript>
+  </head>
+
+  <body class="responsive-active">
+    <div class="bg-orbs" aria-hidden="true">
+      <span class="orb orb--violet"></span>
+      <span class="orb orb--cyan"></span>
+      <span class="orb orb--pink"></span>
+    </div>
+
+    <header class="site-header">
+      <div class="container">
+        <nav class="nav-bar glass" aria-label="Navegação principal">
+          <a class="brand" href="#inicio">
+            <span class="brand-mark" aria-hidden="true">@</span>
+            <span class="brand-name"
+              >MediaQueries<span class="brand-dot">.lab</span></span
+            >
+          </a>
+
+          <ul class="nav-links">
+            <li><a href="#sobre">@media</a></li>
+            <li><a href="#glossario">Glossário</a></li>
+            <li><a href="#cards">Cards</a></li>
+            <li><a href="#teste">Como testar</a></li>
+          </ul>
+
+          <span
+            class="status-pill"
+            id="statusPill"
+            data-state="on"
+            role="status"
+          >
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="statusText">Responsividade ativa</span>
+            <span class="status-sep" aria-hidden="true">·</span>
+            <span class="status-width" id="statusWidth">— px</span>
+          </span>
+        </nav>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="hero container">
+        <span class="eyebrow">Aula de Desenvolvimento Web · CSS</span>
+
+        <h1>
+          Media Queries: um layout para
+          <span class="gradient-text">cada tela</span>
+        </h1>
+
+        <p class="lead">
+          Sem complicação: esta página mostra, ao vivo, como o CSS muda o
+          desenho da tela conforme o aparelho — e o que acontece quando esse CSS
+          deixa de ser aplicado.
+        </p>
+
+        <ul class="chips" aria-label="Tecnologias utilizadas">
+          <li class="chip">HTML5 semântico</li>
+          <li class="chip">CSS Grid + Flexbox</li>
+          <li class="chip">JavaScript vanilla</li>
+          <li class="chip">Glassmorphism</li>
+        </ul>
+
+        <p class="hero-hint">
+          <span class="hero-hint-icon" aria-hidden="true">👇</span>
+          Toque no <strong>botão flutuante</strong> no canto da tela para
+          <strong>desligar o CSS responsivo</strong> e ver na hora a diferença
+          entre um layout adaptado ao celular e um layout desktop “espremido” na
+          tela pequena.
+        </p>
+      </section>
+
+      <div class="container">
+        <div class="notice" id="notice" role="status" hidden>
+          <span class="notice-icon" aria-hidden="true">⚠️</span>
+          <p>
+            <strong
+              >Responsividade desativada — o interruptor está apagado.</strong
+            >
+            O navegador está recebendo o CSS de desktop (4 colunas, fontes
+            grandes, margens largas) e tentando desenhar tudo numa tela de
+            celular. Por isso o conteúdo sai para fora e a página ganha rolagem
+            lateral. Toque no botão para religar.
+          </p>
+        </div>
+      </div>
+
+      <section class="section container" id="sobre">
+        <header class="section-head">
+          <span class="eyebrow">01 · Conceito</span>
+          <h2 class="section-title">O que é <code>@media</code>?</h2>
+        </header>
+
+        <div class="info-grid">
+          <article class="info-card glass">
+            <p>
+              Uma <strong>media query</strong> é um bloco de estilos condicional
+              no CSS: ele só é aplicado quando a condição do dispositivo é
+              verdadeira. A forma mais comum é comparar a largura da janela com
+              um valor, como em <code>max-width: 768px</code> — ou seja,
+              “aplique apenas em telas de até 768 pixels de largura”.
+            </p>
+            <p>
+              Assim o navegador “pergunta” o tamanho da tela e entrega o layout
+              adequado: grids viram coluna única, fontes e margens diminuem, o
+              menu se reorganiza e os alvos de toque ficam maiores.
+            </p>
+
+            <div class="analogy">
+              <span class="analogy-mark" aria-hidden="true">💡</span>
+              <p>
+                <strong>Analogia:</strong> o <code>@media</code> é o
+                <strong>“SE… ENTÃO” do CSS</strong>. <em>SE</em> a tela tiver
+                até 768px de largura, <em>ENTÃO</em> aplique os estilos de
+                dentro das chaves. Fora dessa condição o navegador nem lê aquele
+                bloco — é como levar guarda-chuva só quando está chovendo.
+              </p>
+            </div>
+
+            <ul class="def-list">
+              <li class="def-item">
+                <code>max-width: 768px</code>
+                <span
+                  ><strong>“No máximo 768px”</strong> → vale do zero até 768px:
+                  celulares e tablets em pé.</span
+                >
+              </li>
+              <li class="def-item">
+                <code>min-width: 769px</code>
+                <span
+                  ><strong>“No mínimo 769px”</strong> → vale daqui para cima:
+                  notebooks e monitores.</span
+                >
+              </li>
+              <li class="def-item">
+                <code>orientation / pointer</code>
+                <span
+                  >Outras perguntas: a tela está
+                  <strong>deitada ou em pé</strong>? O dedo está
+                  <strong>tocando</strong> ou é mouse?</span
+                >
+              </li>
+            </ul>
+
+            <p class="info-note">
+              Nesta página, o
+              <strong
+                >layout base (desktop) foi construído FORA das media
+                queries</strong
+              >
+              — ou seja, ele vale sempre. As adaptações para celular ficam
+              dentro de blocos <code>@media</code> que só são considerados
+              enquanto o <code>&lt;body&gt;</code> tem a classe
+              <code>.responsive-active</code>.
+              <strong>Pense nessa classe como um interruptor de luz:</strong> o
+              botão da tela liga (adiciona a classe) e desliga (remove a
+              classe).
+            </p>
+          </article>
+
+          <aside class="code-card glass" aria-label="Exemplo de código CSS">
+            <div class="code-head" aria-hidden="true">
+              <span class="code-dot code-dot--red"></span>
+              <span class="code-dot code-dot--yellow"></span>
+              <span class="code-dot code-dot--green"></span>
+              <span class="code-file">styles.css</span>
+            </div>
+            <pre><code><span class="c-com"></span>
+<span class="c-sel">.card-grid</span> {
+  <span class="c-prop">display</span>: <span class="c-val">grid</span>;
+  <span class="c-prop">grid-template-columns</span>: <span class="c-val">repeat</span>(<span class="c-num">4</span>, <span class="c-num">1fr</span>);
+}
+
+<span class="c-com"></span>
+<span class="c-kw">@media</span> (<span class="c-prop">max-width</span>: <span class="c-num">768px</span>) {
+  <span class="c-sel">body.responsive-active</span> <span class="c-sel">.card-grid</span> {
+    <span class="c-prop">grid-template-columns</span>: <span class="c-num">1fr</span>;
+    <span class="c-com"></span>
+  }
+}</code></pre>
+
+            <div class="legend">
+              <h4>Tradução linha a linha</h4>
+              <ol>
+                <li>
+                  <code>@media (max-width: 768px) {</code>
+                  <span
+                    >→ “Quando a tela tiver <strong>até 768px</strong>, liga o
+                    bloco de baixo.”</span
+                  >
+                </li>
+                <li>
+                  <code>body.responsive-active .card-grid {</code>
+                  <span
+                    >→ “…e <strong>só se</strong> o
+                    <code>&lt;body&gt;</code> estiver com a classe
+                    <code>.responsive-active</code>.”</span
+                  >
+                </li>
+                <li>
+                  <code>grid-template-columns: 1fr;</code>
+                  <span
+                    >→ “Então o grid passa a ter <strong>1 coluna só</strong> e
+                    as caixas empilham.”</span
+                  >
+                </li>
+              </ol>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section container" id="glossario">
+        <header class="section-head">
+          <span class="eyebrow">02 · Glossário</span>
+          <h2 class="section-title">Os termos, em português claro</h2>
+          <p class="section-sub">
+            Um dicionário para a turma inteira acompanhar: cada palavra técnica
+            com uma explicação simples e uma analogia do dia a dia.
+          </p>
+        </header>
+
+        <ul class="glossary-grid">
+          <li class="term glass">
+            <h3>Responsividade <span class="term-aka">(RWD)</span></h3>
+            <p class="term-def">
+              É a mesma página se reorganizando sozinha conforme o aparelho: no
+              celular ela vira coluna única, no desktop ela abre em várias
+              colunas.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              Uma mesa extensível: pequena para o cotidiano, cresce quando chega
+              gente.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>Viewport</h3>
+            <p class="term-def">
+              A área da página que você enxerga agora dentro da janela do
+              navegador ou da tela do celular. No celular, a viewport tem a
+              largura da tela (ex.: 390px).
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              A janela do ônibus: o mundo continua lá fora, mas você vê só o que
+              cabe na janela.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>Media Query <span class="term-aka">@media</span></h3>
+            <p class="term-def">
+              Um “SE” do CSS: um bloco de estilos que só entra em ação quando a
+              condição da tela é verdadeira (por exemplo, “largura até 768px”).
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              SE chover, ENTÃO levo guarda-chuva. Sem chuva, o guarda-chuva fica
+              em casa.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>Breakpoint <span class="term-aka">(ponto de quebra)</span></h3>
+            <p class="term-def">
+              O valor de largura escolhido para o layout mudar de forma. Aqui
+              usamos 1024px, 860px, 768px e 480px.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              O momento em que a fila precisa virar duas colunas para caber na
+              porta.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>max-width / min-width</h3>
+            <p class="term-def">
+              <code>max-width: 768px</code> significa “até 768px”;
+              <code>min-width: 769px</code> significa “a partir de 769px”. Eles
+              dizem até onde a pergunta do CSS vale.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              Tamanho de roupa: “até o M” ou “a partir do G”.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>px e rem</h3>
+            <p class="term-def">
+              <strong>px</strong> = pixel, medida fixa na tela.
+              <strong>rem</strong> = “quantas vezes a fonte padrão do navegador”
+              (1rem = 16px no padrão). Com rem, tudo cresce ou encolhe junto.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              px é o centímetro fixo da régua; rem é a medida que acompanha quem
+              aumenta a letra no celular.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>display: grid</h3>
+            <p class="term-def">
+              Divide a área em linhas e colunas — como uma planilha — e encaixa
+              os itens dentro das caixas. O <code>.card-grid</code> é uma grade
+              de 4 colunas.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              A moldura de um quebra-cabeça: você define quantas colunas ela
+              tem.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>display: flex</h3>
+            <p class="term-def">
+              Alinha os itens em uma única direção (linha ou coluna) e reparte o
+              espaço que sobra entre eles. Ideal para menus, botões e listas.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              A fila do refeitório: todo mundo na mesma direção, com espaçamento
+              igual.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>Classe no <code>&lt;body&gt;</code></h3>
+            <p class="term-def">
+              Uma etiqueta que colocamos ou tiramos para ligar/desligar um grupo
+              de regras. Aqui, <code>.responsive-active</code> é a condição para
+              as media queries valerem.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              O interruptor da lâmpada: sem a classe, a lâmpada do CSS
+              responsivo fica apagada.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>Overflow <span class="term-aka">(transbordamento)</span></h3>
+            <p class="term-def">
+              Acontece quando o conteúdo é mais largo que a tela: ele escapa
+              para fora, aparece barra de rolagem lateral e o layout parece
+              “quebrado”.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              Texto escrito em papel largo demais para o envelope: sempre sobra
+              para fora.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>Especificidade</h3>
+            <p class="term-def">
+              Se duas regras brigam pelo mesmo elemento, vence a mais detalhada.
+              <code>body.responsive-active .card-grid</code> (3 partes) ganha de
+              <code>.card-grid</code> (1 parte) — por isso não precisamos de
+              <code>!important</code>.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              Quanto mais detalhes na ordem de serviço, mais autoridade ela tem.
+            </p>
+          </li>
+
+          <li class="term glass">
+            <h3>Mobile first</h3>
+            <p class="term-def">
+              Estratégia de programar primeiro a versão do celular e crescer com
+              <code>min-width</code>. Aqui fizemos o contrário (desktop
+              primeiro) de propósito, para mostrar o que acontece quando falta
+              responsivo.
+            </p>
+            <p class="term-tip">
+              <strong>No dia a dia</strong>
+              Construir a casa pensando no terreno pequeno e só depois
+              acrescentar cômodos.
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section container" id="cards">
+        <header class="section-head">
+          <span class="eyebrow">03 · Conteúdo</span>
+          <h2 class="section-title">Grid de cards</h2>
+          <p class="section-sub">
+            Quatro caixas lado a lado no desktop. No celular, o CSS responsivo
+            empilha as caixas em uma coluna só. Com o responsivo desligado, o
+            navegador continua tentando enfiar 4 colunas numa tela de celular —
+            e é aí que a página “quebra”.
+          </p>
+        </header>
+
+        <div class="card-grid">
+          <article class="card glass">
+            <span class="card-icon" aria-hidden="true">🚀</span>
+            <h3>Performance</h3>
+            <p>
+              Página leve: código enxuto e imagens otimizadas, para abrir rápido
+              mesmo em rede 3G.
+            </p>
+            <span class="card-tag">Carregamento rápido</span>
+          </article>
+
+          <article class="card glass">
+            <span class="card-icon" aria-hidden="true">🎨</span>
+            <h3>Design System</h3>
+            <p>
+              Um combinado de cores, espaçamentos e fontes, reaproveitado em
+              todos os blocos da tela.
+            </p>
+            <span class="card-tag">Padronização</span>
+          </article>
+
+          <article class="card glass">
+            <span class="card-icon" aria-hidden="true">📱</span>
+            <h3>Mobile First</h3>
+            <p>
+              Pense primeiro no celular e acrescente colunas aos poucos, usando
+              <code>min-width</code>.
+            </p>
+            <span class="card-tag">Estratégia</span>
+          </article>
+
+          <article class="card glass">
+            <span class="card-icon" aria-hidden="true">♿</span>
+            <h3>Acessibilidade</h3>
+            <p>
+              Texto com bom contraste, foco visível no teclado e botões grandes
+              para o dedo (mín. 44px).
+            </p>
+            <span class="card-tag">Para todas as pessoas</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section container" id="teste">
+        <header class="section-head">
+          <span class="eyebrow">04 · Prática</span>
+          <h2 class="section-title">4 passos para ver a quebra</h2>
+          <p class="section-sub">
+            Faça junto com a turma — dá menos de um minuto.
+          </p>
+        </header>
+
+        <ol class="steps">
+          <li class="step glass">
+            <span class="step-num">01</span>
+            <h3>Abra pelo celular</h3>
+            <p>
+              Peça para alguém abrir este endereço no navegador do celular. O
+              layout já nasce em coluna única.
+            </p>
+          </li>
+          <li class="step glass">
+            <span class="step-num">02</span>
+            <h3>Toque no botão</h3>
+            <p>
+              Ele tira a classe <code>.responsive-active</code> do
+              <code>&lt;body&gt;</code> — é como apagar o interruptor do CSS
+              responsivo.
+            </p>
+          </li>
+          <li class="step glass">
+            <span class="step-num">03</span>
+            <h3>Veja o que acontece</h3>
+            <p>
+              O navegador continua recebendo o CSS de desktop: 4 colunas e
+              fontes grandes numa tela estreita. O conteúdo transborda e surge
+              rolagem lateral.
+            </p>
+          </li>
+          <li class="step glass">
+            <span class="step-num">04</span>
+            <h3>Toque de novo</h3>
+            <p>
+              A classe volta para o <code>&lt;body&gt;</code>, as media queries
+              voltam a valer e o layout se reorganiza sozinho.
+            </p>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-inner glass">
+          <p>
+            <strong>MediaQueries.lab</strong> — demonstração sobre Media Queries
+            e responsividade.
+          </p>
+          <p class="footer-hint">
+            Use o botão flutuante no canto da tela para alternar o CSS
+            responsivo em tempo real.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <button
+      class="toggle-btn"
+      id="toggleBtn"
+      type="button"
+      aria-pressed="true"
+      data-state="on"
+    >
+      <svg
+        class="btn-icon"
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <rect x="2" y="4" width="13" height="9" rx="1.6"></rect>
+        <path d="M8.5 13v3M6 16h5"></path>
+        <rect x="16.5" y="8.5" width="5.5" height="11" rx="1.6"></rect>
+        <path d="M18.5 17.2h1.5"></path>
+      </svg>
+      <span class="btn-label" id="btnLabel">Desativar Responsividade</span>
+    </button>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
